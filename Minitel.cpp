@@ -26,18 +26,40 @@ boolean _currentBlink = false;
 boolean _currentShowCursor = false;
 
 
-Minitel::Minitel() : SoftwareSerial(6, 7) {
-  init();
+Minitel::Minitel() : SoftwareSerial(6, 7, 1200) {
+  init(1200);
 }
-
 
 Minitel::Minitel(int rx, int tx) : SoftwareSerial(rx, tx) {
-  init();
+  init(1200);
 }
 
-void Minitel::init() {
-  Serial.begin(1200);
+Minitel::Minitel(int rx, int tx, int speed) : SoftwareSerial(rx, tx) {
+  init(speed);
+}
+
+void Minitel::init(int speed) {
   begin(1200);
+  if(speed != 1200) {
+	  textByte(0x1b); // esc
+	  textByte(0x3a); // pro2
+	  textByte(0x6b); // prog
+	  switch(speed) {
+		  case 9600:   textByte(0x7f); // 9600b (minitel2)
+					   end();
+					   begin(9600);
+					   break;
+		  case 4800:   textByte(0x76); // 4800b
+					   end();
+					   begin(4800);
+					   break;
+		  case 300:    textByte(0x52); // 300b
+					   end();
+					   begin(300);
+					   break;
+		  default:     textByte(0x64); // 1200b
+	  }
+  }
   useDefaultColors();
   refreshSettings();
 }

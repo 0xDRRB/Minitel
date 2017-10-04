@@ -179,7 +179,7 @@ private :
 	
 	char _nullChar = '~';
 
-	void init();
+	void init(int speed);
 	void mode(byte mode);
 	void cursor(boolean b);
 	void blink(boolean b);
@@ -203,6 +203,7 @@ public :
 
 	Minitel();
 	Minitel(int rx, int tx);
+	Minitel(int rx, int tx, int speed);
 
 	void serialprint7(byte b);
 

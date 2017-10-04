@@ -1,2 +1,5 @@
-
+# vim stuff
+*~
+Session.vim
+*.swp
 .DS_Store
