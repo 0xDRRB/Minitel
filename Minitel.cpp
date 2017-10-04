@@ -43,7 +43,7 @@ tminitel typeminitel[] = {
     { 'z', "Minitel 12", 1, CLAV_AZERTY, 9600, 1, 1 }
 };
 
-Minitel::Minitel() : SoftwareSerial(6, 7, 1200) {
+Minitel::Minitel() : SoftwareSerial(6, 7) {
   init(1200);
 }
 
