@@ -25,23 +25,28 @@ boolean _currentUnderline = false;
 boolean _currentBlink = false;
 boolean _currentShowCursor = false;
 
+// FIXME: too much memory used
 tminitel typeminitel[] = {
-    { 'b', "Minitel 1", 0, CLAV_ABCD, 1200, 0, 0 },
-    { 'c', "Minitel 1", 0, CLAV_AZERTY, 1200, 0, 0 },
-    { 'd', "Minitel 10", 0, CLAV_AZERTY, 1200, 0, 0 },
-    { 'e', "Minitel 1 couleur", 0, CLAV_AZERTY, 1200, 0, 0 },
-    { 'f', "Minitel 10", 1, CLAV_AZERTY, 1200, 0, 0 },
-    { 'g', "Emulateur", 1, CLAV_AZERTY, 9600, 1, 1 },
-    { 'j', "Imprimante", 0, CLAV_NO, 1200, 0, 0 },
-    { 'r', "Minitel 1", 1, CLAV_AZERTY, 1200, 0, 0 },
-    { 's', "Minitel 1 couleur", 1, CLAV_AZERTY, 1200, 0, 0  },
-    { 't', "Terminatel 252", 0, CLAV_NO, 1200, 0, 0 },
-    { 'u', "Minitel 1B", 1, CLAV_AZERTY, 4800, 1, 0 },
-    { 'v', "Minitel 2", 1, CLAV_AZERTY, 9600, 1, 1 },
-    { 'w', "Minitel 10B", 1, CLAV_AZERTY, 4800, 1, 0 },
-    { 'y', "Minitel 5", 1, CLAV_AZERTY, 9600, 1, 1 },
-    { 'z', "Minitel 12", 1, CLAV_AZERTY, 9600, 1, 1 }
+    { 'b', "Minitel 1", NULL, 0, 0, CLAV_ABCD, 1200, 0, 0 },
+    { 'c', "Minitel 1", NULL, 0, 0, CLAV_AZERTY, 1200, 0, 0 },
+    { 'd', "Minitel 10", NULL, 0, 0, CLAV_AZERTY, 1200, 0, 0 },
+    { 'e', "Minitel 1 couleur", NULL, 0, 0, CLAV_AZERTY, 1200, 0, 0 },
+    { 'f', "Minitel 10", NULL, 0, 1, CLAV_AZERTY, 1200, 0, 0 },
+    { 'g', "Emulateur", NULL, 0, 1, CLAV_AZERTY, 9600, 1, 1 },
+    { 'j', "Imprimante", NULL, 0, 0, CLAV_NO, 1200, 0, 0 },
+    { 'r', "Minitel 1", NULL, 0, 1, CLAV_AZERTY, 1200, 0, 0 },
+    { 's', "Minitel 1 couleur", NULL, 0, 1, CLAV_AZERTY, 1200, 0, 0  },
+    { 't', "Terminatel 252", NULL, 0, 0, CLAV_NO, 1200, 0, 0 },
+    { 'u', "Minitel 1B", NULL, 0, 1, CLAV_AZERTY, 4800, 1, 0 },
+    { 'v', "Minitel 2", NULL, 0, 1, CLAV_AZERTY, 9600, 1, 1 },
+    { 'w', "Minitel 10B", NULL, 0, 1, CLAV_AZERTY, 4800, 1, 0 },
+    { 'y', "Minitel 5", NULL, 0, 1, CLAV_AZERTY, 9600, 1, 1 },
+    { 'z', "Minitel 12", NULL, 0, 1, CLAV_AZERTY, 9600, 1, 1 }
 };
+
+char *constructeurs[13] = { "Matra", "RTIC", "Telic-Alcatel", "Thomson", "CCS",
+	                      "Fiet", "Fime", "Unitel", "Option", "Bull", "Telematique",
+						  "Desmet", "Inconnu" };
 
 Minitel::Minitel() : SoftwareSerial(6, 7) {
   init(1200);
@@ -801,10 +806,10 @@ void Minitel::spiral(int x, int y, int siz, int c) {
   }
 }
 
-tminitel * Minitel::getMinitelType() {
+tminitel * Minitel::getMinitelInfo() {
     tminitel *ret = NULL;
 
-	char constructor;
+	char constr;
 	char type;
 	char version;
 
@@ -820,7 +825,7 @@ tminitel * Minitel::getMinitelType() {
 	if((read() & 127) != 0x01)  // SOH (start of heading)
 		return NULL;
 
-	constructor = read() & 127;
+	constr = read() & 127;
 	type = read() & 127;
 	version = read() & 127;
 
@@ -830,6 +835,11 @@ tminitel * Minitel::getMinitelType() {
     for(int i = 0; i < sizeof(typeminitel)/sizeof(tminitel); i++) {
         if(typeminitel[i].code == type) {
             ret = &typeminitel[i];
+			if(constr >= 65 and constr <= 76)
+				ret->constructeur = constructeurs[constr - 65];
+			else
+				ret->constructeur = constructeurs[12]; // "Inconnu"
+			ret->version = version;
 			break;
         }
     }

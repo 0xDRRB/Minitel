@@ -163,6 +163,8 @@
 typedef struct tminitel_s {
     char code;
     char *nom;
+    char *constructeur;
+	char version;
     int retournable;
     int clavier;
     int vitesse;
@@ -297,7 +299,7 @@ public :
 	boolean isSerializableKey();
 	char getCharacterKey();
 
-	tminitel * getMinitelType();
+	tminitel * getMinitelInfo();
 
 };
 
