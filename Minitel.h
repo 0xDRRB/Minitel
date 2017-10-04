@@ -1,4 +1,9 @@
 /**
+ * Minitel library for Arduino / October 2017
+ * https://github.com/Lefinnois/Minitel
+ *
+ * Forked and modified from :
+ *
  * Minitel library for Arduino (v0.2) / April 2015
  * http://github.com/01010101/Minitel
  *
