@@ -25,6 +25,23 @@ boolean _currentUnderline = false;
 boolean _currentBlink = false;
 boolean _currentShowCursor = false;
 
+tminitel typeminitel[] = {
+    { 'b', "Minitel 1", 0, CLAV_ABCD, 1200, 0, 0 },
+    { 'c', "Minitel 1", 0, CLAV_AZERTY, 1200, 0, 0 },
+    { 'd', "Minitel 10", 0, CLAV_AZERTY, 1200, 0, 0 },
+    { 'e', "Minitel 1 couleur", 0, CLAV_AZERTY, 1200, 0, 0 },
+    { 'f', "Minitel 10", 1, CLAV_AZERTY, 1200, 0, 0 },
+    { 'g', "Emulateur", 1, CLAV_AZERTY, 9600, 1, 1 },
+    { 'j', "Imprimante", 0, CLAV_NO, 1200, 0, 0 },
+    { 'r', "Minitel 1", 1, CLAV_AZERTY, 1200, 0, 0 },
+    { 's', "Minitel 1 couleur", 1, CLAV_AZERTY, 1200, 0, 0  },
+    { 't', "Terminatel 252", 0, CLAV_NO, 1200, 0, 0 },
+    { 'u', "Minitel 1B", 1, CLAV_AZERTY, 4800, 1, 0 },
+    { 'v', "Minitel 2", 1, CLAV_AZERTY, 9600, 1, 1 },
+    { 'w', "Minitel 10B", 1, CLAV_AZERTY, 4800, 1, 0 },
+    { 'y', "Minitel 5", 1, CLAV_AZERTY, 9600, 1, 1 },
+    { 'z', "Minitel 12", 1, CLAV_AZERTY, 9600, 1, 1 }
+};
 
 Minitel::Minitel() : SoftwareSerial(6, 7, 1200) {
   init(1200);
@@ -782,5 +799,41 @@ void Minitel::spiral(int x, int y, int siz, int c) {
       x++;
     }
   }
+}
+
+tminitel * Minitel::getMinitelType() {
+    tminitel *ret = NULL;
+
+	char constructor;
+	char type;
+	char version;
+
+	textByte(0x1b); // esc
+	textByte(0x39); // pro1
+	textByte(0x7b); // enqROM
+
+	delay(500);
+
+	if(available() != 5)
+		return NULL;
+
+	if((read() & 127) != 0x01)  // SOH (start of heading)
+		return NULL;
+
+	constructor = read() & 127;
+	type = read() & 127;
+	version = read() & 127;
+
+	if((read() & 127) != 0x04)  // EOT (end of transmission)
+		return NULL;
+
+    for(int i = 0; i < sizeof(typeminitel)/sizeof(tminitel); i++) {
+        if(typeminitel[i].code == type) {
+            ret = &typeminitel[i];
+			break;
+        }
+    }
+
+    return ret;
 }
 

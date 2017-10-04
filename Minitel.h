@@ -156,6 +156,20 @@
 #define SUITE 72
 #define ENVOI 65
 
+#define CLAV_NO         0
+#define CLAV_AZERTY     1
+#define CLAV_ABCD       2
+
+typedef struct tminitel_s {
+    char code;
+    char *nom;
+    int retournable;
+    int clavier;
+    int vitesse;
+    int col80;
+    int mcar;
+} tminitel;
+
 class Minitel : public SoftwareSerial {
 
 private :	
@@ -283,7 +297,7 @@ public :
 	boolean isSerializableKey();
 	char getCharacterKey();
 
-
+	tminitel * getMinitelType();
 
 };
 
