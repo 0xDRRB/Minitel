@@ -1,18 +1,40 @@
-#Minitel library for Arduino
+# Updated Minitel library for Arduino
+
+This library is a fork from [Minitel library](https://github.com/01010101/Minitel) updated with new features :
+
+* Speed selection and switching from serial communication (A PR already exists for this feature. I found it after writing my own code. The PR is almost one year old and has never been applied. I think no one maintains the original library anymore)
+* `getMinitelInfo()` return information about the device (model, features, max speed, etc)
+* `MinitelInfo.ino` exemple showing how to use `getMinitelInfo()`
+
+# Bibliothèque Arduino pour dialoguer avec un Minitel
+
+Cette Bibliothèque est un fork de [Minitel library](https://github.com/01010101/Minitel) avec quelques fonctionnalités ajoutées :
+
+* Sélection de la vitesse de communication et configuration du Minitel via la liaison série (Une PR existe déjà pour cette fonctionnalité. Je l'ai découvert après avoir écrit mon propre code. La PR a presque un an et n'a jamais été appliquée/validé. Je pense que plus personne ne s'occupe de la bibliothèque originale à présent)
+* `getMinitelInfo()` retrourne les information à propos du périphérique (modèle, caractristiques, vitesse max, etc)
+* `MinitelInfo.ino`, un exemple montrant comment utiliser `getMinitelInfo()`
+
+---
+
+Original `README.md` follow :
+
+---
+
+# Minitel library for Arduino
 
 This library provides a way to create screens for the [Minitel](https://en.wikipedia.org/wiki/Minitel) without having to dig into the complexity of the system.
 
-##Schematic
+## Schematic
 
 A DIN 45º plug is required to plug the Arduino to the Minitel
 
 ![Alt text](/images/DIN.png?raw=true "Schematic")
 
-##External libraries
+## External libraries
 
 This library is using SoftwareSerial, please install it prior to compiling any Minitel sketch.
 
-##Constructor
+## Constructor
 
 Default constructor, using Arduino PINs 6 and 7 for TX/RX
 
@@ -38,7 +60,7 @@ void setup() {
 ...
 ```
 
-##Graphic and Text modes
+## Graphic and Text modes
 
 Here is how you can switch between text and graphic mode 
 
