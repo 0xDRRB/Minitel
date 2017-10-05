@@ -5,14 +5,16 @@ This library is a fork from [Minitel library](https://github.com/01010101/Minite
 * Speed selection and switching from serial communication (A PR already exists for this feature. I found it after writing my own code. The PR is almost one year old and has never been applied. I think no one maintains the original library anymore)
 * `getMinitelInfo()` return information about the device (model, features, max speed, etc)
 * `MinitelInfo.ino` exemple showing how to use `getMinitelInfo()`
+* Removed useless configuration of `Serial` in the library
 
 # Bibliothèque Arduino pour dialoguer avec un Minitel
 
-Cette Bibliothèque est un fork de [Minitel library](https://github.com/01010101/Minitel) avec quelques fonctionnalités ajoutées :
+Cette bibliothèque est un fork de [Minitel library](https://github.com/01010101/Minitel) avec quelques fonctionnalités ajoutées :
 
 * Sélection de la vitesse de communication et configuration du Minitel via la liaison série (Une PR existe déjà pour cette fonctionnalité. Je l'ai découvert après avoir écrit mon propre code. La PR a presque un an et n'a jamais été appliquée/validé. Je pense que plus personne ne s'occupe de la bibliothèque originale à présent)
 * `getMinitelInfo()` retrourne les information à propos du périphérique (modèle, caractristiques, vitesse max, etc)
 * `MinitelInfo.ino`, un exemple montrant comment utiliser `getMinitelInfo()`
+* Retrait de la configuration inutile de `Serial` dans la bibliothèque
 
 ---
 
